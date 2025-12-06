@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Number Guessing Game</title>
+</head>
+<body>
+	<h1>
+		114306044_Number Guessing Game
+	</h1>
+	<div id ="image"></div>
+	<script>
+
+		var answer = Math.floor((Math.random() * 100) + 1);
+
+		var min = 1;
+		var max = 100;
+		var chances = 7;
+
+		while (chances > 0 ){
+			var input= window.prompt("Guess number between " + min + "  and " + max + "\n Remaining attempts: " + chances);
+
+		if (input === "" || isNaN(input)){
+			alert("Invalid Input!");
+			continue;
+		}
+
+		input = input.trim();
+
+		var guess = Number(input);
+
+		if(guess< min || guess > max){
+			alert("Your guess must be between " + min + " and " + max);
+			continue;
+		}
+		else if(guess === answer){
+			alert("Congrats you've guess the correct answer! The correct answer is " + answer);
+			document.getElementById("image").innerHTML = '<img src="correct.jpg" alt="correct" width="300">';
+			break;
+		}
+
+		if(guess < answer ){
+			min = guess + 1;
+		}
+		else{
+			max = guess - 1;
+		}
+
+		chances--;
+
+		if(chances === 0){
+			alert("Game over! The correct answer was: " + answer);
+			document.getElementById("image").innerHTML = '<img src="wrong.jpg" alt="wrong" width="300">';
+		}
+	}
+
+	</script>
+
+</body>
+</html>
