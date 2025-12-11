@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        #record { margin-top: 20px; }
+        input { width: 120px; font-size: 18px; }
+        button { padding: 5px 15px; font-size: 16px; }
+    </style>
+</head>
+<body>
+
+<h1>114306044_HW7_1A2B</h1>
+
+<input type="text" id="guessInput" placeholder="Enter 4 digits">
+<button onclick="play()">Guess</button>
+
+<div id="record"></div>
+
+<script>
+
+    function generateAnswer() {
+        let digits = ['0','1','2','3','4','5','6','7','8','9'];
+        let answer = "";
+
+        while (answer.length < 4) {
+            let index = Math.floor(Math.random() * digits.length);
+            answer += digits[index];
+            digits.splice(index, 1);
+        }
+        return answer;
+    }
+
+    const answer = generateAnswer();
+    let attempts = 0;
+
+    function isValid(str) {
+        if (str.length !== 4) return false;
+        if (!/^\d{4}$/.test(str)) return false;
+
+        let set = new Set(str);
+        return set.size === 4;
+    }
+
+
+    function checkAB(guess, ans) {
+        let A = 0, B = 0;
+
+        for (let i = 0; i < 4; i++) {
+            if (guess[i] === ans[i]) {
+                A++;
+            } else if (ans.includes(guess[i])) {
+                B++;
+            }
+        }
+
+        return `${A}A${B}B`;
+    }
+
+
+    function play() {
+        let userGuess = document.getElementById("guessInput").value.trim();
+
+        if (!isValid(userGuess)) {
+            alert("Invalid input! Enter 4 non-repeating digits.");
+            document.getElementById("guessInput").value = "";
+            return;
+        }
+
+        attempts++;
+
+        let result = checkAB(userGuess, answer);
+
+        let recordDiv = document.getElementById("record");
+        recordDiv.innerHTML += `Guess ${attempts}: ${userGuess} → ${result}<br>`;
+
+        if (result === "4A0B") {
+            alert(`Correct! You guessed it in ${attempts} attempts!`);
+        }
+
+        document.getElementById("guessInput").value = "";
+    }
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
